@@ -1,23 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Axios from 'axios';
 
 function App() {
+
+  const [excuseName, setExcuseName] = useState("");
+
+  const fetchData = (excuse) => {
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${excuse}`).then((res) => {
+      console.log(res.data);
+      setExcuseName(res.data[0].excuse);
+    });
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Generate an Excuse</h1>
+
+      <div>
+        <button onClick={() => fetchData("party")}> Party</button>
+      </div>
+
+      <div>
+        <button onClick={() => fetchData("family")}> Family</button>
+      </div>
+
+      <div>
+        <button onClick={() => fetchData("office")}> Office</button>
+      </div>
+
+      <p>{excuseName}</p>
     </div>
   );
 }
